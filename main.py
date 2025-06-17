@@ -1,10 +1,26 @@
 import os
 import requests
+import json
 
-VERSION = "v1.0"
-download_path = "/storage/emulated/0/Download/天生少爷命工具部署/"
+VERSION = "v1.0"  # 本地版本
+GITHUB_API_URL = "https://api.github.com/repos/YOUR_USERNAME/YOUR_REPO_NAME/releases/latest"  # 替换为你的 GitHub 项目地址
+
+def check_for_update():
+    try:
+        response = requests.get(GITHUB_API_URL)
+        response.raise_for_status()
+        latest_release = response.json()
+        latest_version = latest_release['tag_name']
+
+        if latest_version != VERSION:
+            print(f"🎉 新版本 {latest_version} 可用！请访问 GitHub 更新。")
+        else:
+            print("✅ 当前是最新版本。")
+    except Exception as e:
+        print("❌ 检测更新失败：", e)
 
 def check_download_permission():
+    download_path = "/storage/emulated/0/Download/天生少爷命工具部署/"
     if not os.path.exists(download_path):
         try:
             os.makedirs(download_path)
@@ -44,14 +60,14 @@ def check_url_validity(url):
 def download_menu():
     tools = get_download_list()
     if not tools:
-        print("\n暂无可用工具。")
+        print("\\n暂无可用工具。")
         return
 
-    print("\n📦 可下载工具列表：")
+    print("\\n📦 可下载工具列表：")
     for i, (name, _, _) in enumerate(tools):
         print(f"{i + 1}. {name}")
 
-    choice = input("\n请输入下载序号（或回车返回）：")
+    choice = input("\\n请输入下载序号（或回车返回）：")
     if not choice.isdigit():
         return
 
@@ -75,9 +91,10 @@ def download_menu():
         print("⚠️ 无效选择。")
 
 def main():
+    check_for_update()  # 启动时检查更新
     check_download_permission()
     while True:
-        print(f"\n=== 天生少爷命工具 启动器 {VERSION} ===")
+        print(f"\\n=== 天生少爷命工具 启动器 {VERSION} ===")
         print("1. 下载工具")
         print("2. 退出")
         cmd = input("请输入你的选择：")
