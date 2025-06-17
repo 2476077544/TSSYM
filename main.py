@@ -3,7 +3,7 @@ import requests
 import json
 
 VERSION = "v1.0"  # 本地版本
-GITHUB_API_URL = "https://api.github.com/repos/YOUR_USERNAME/YOUR_REPO_NAME/releases/latest"  # 替换为你的 GitHub 项目地址
+GITHUB_API_URL = "https://api.github.com/repos/2476077544/TSSYM/releases/latest"  # 替换为你的 GitHub 项目地址
 
 def check_for_update():
     try:
